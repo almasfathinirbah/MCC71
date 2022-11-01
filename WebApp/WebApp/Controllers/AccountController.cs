@@ -38,7 +38,7 @@ namespace WebApp.Controllers
                     Email = data.Employee.Email,
                     Role = data.Role.Name
                 };
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", responseLogin);
             }
             return View();
         }
@@ -89,7 +89,9 @@ namespace WebApp.Controllers
             var data = myContext.Users
                 .Include(x => x.Employee)
                 .Include(x => x.Role)
+                .AsNoTracking()
                 .SingleOrDefault(x => x.Employee.Email.Equals(email) && x.Password.Equals(password));
+            myContext.SaveChanges();
             if(data != null)
             {
                 User user = new User()
@@ -98,7 +100,7 @@ namespace WebApp.Controllers
                     Password = confirm,
                     RoleId = data.RoleId
                 };
-                myContext.Entry(User).State = EntityState.Modified;
+                myContext.Entry(user).State = EntityState.Modified;
                 var resultUser = myContext.SaveChanges();
                 if (resultUser > 0)
                 {
@@ -116,6 +118,18 @@ namespace WebApp.Controllers
 
         [HttpPost]
         public ActionResult ForgotPassword(string email)
+        {
+            var data = myContext.Employees.Equals(email);
+            myContext.SaveChanges();
+            if(data != null)
+            {
+                return RedirectToAction("EmailConfirm", "Account");
+            }
+            return View();
+        }
+
+        //EmailConfirm
+        public IActionResult EmailConfirm()
         {
             return View();
         }
