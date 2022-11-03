@@ -1,42 +1,41 @@
 ﻿using API.Context;
+using API.Handlers;
+using API.Models;
 using API.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace API.Repositories.Data
 {
     public class AccountRepository
     {
-        private readonly MyContext myContext;
+        MyContext myContext;
 
-        public AccountRepository(MyContext context)
+        public AccountRepository(MyContext myContext)
         {
-            myContext = context;
+            this.myContext = myContext;
         }
 
-        public ResponseLogin Login()
+        public ResponseLogin Login(string email, string password)
         {
-            if (email != null)
-            {
-                var data = myContext.Users
+            var data = myContext.Users
                 .Include(x => x.Employee)
                 .Include(x => x.Role)
                 .SingleOrDefault(x => x.Employee.Email.Equals(email));
-                var result = Hashing.ValidatePassword(password, data.Password);
-                if (result == true)
-                {
-                    HttpContext.Session.SetInt32("Id", data.Id);
-                    HttpContext.Session.SetString("FullName", data.Employee.FullName);
-                    HttpContext.Session.SetString("Email", data.Employee.Email);
-                    HttpContext.Session.SetString("Role", data.Role.Name);
+            var validate = Hashing.ValidatePassword(password, data.Password);
 
-                    return 1;
-                }
-                else
+            if (data != null && validate)
+            {
+                ResponseLogin login = new ResponseLogin()
                 {
-                    return 2;
-                }
+                    Id = data.Id,
+                    FullName = data.Employee.FullName,
+                    Email = data.Employee.Email,
+                    Role = data.Role.Name
+                };
+                return login;
             }
-            return 3;
+            return null;
         }
     }
 }
