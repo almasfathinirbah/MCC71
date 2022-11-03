@@ -45,5 +45,63 @@ namespace API.Controllers
                 return BadRequest(new { StatusCode = 400, Message = e.Message });
             }
         }
+
+        [HttpPost("Register")]
+        public IActionResult Register(string fullName, string email, DateTime birthDate, string password)
+        {
+            try
+            {
+                var register = accountRepository.Register(fullName, email, birthDate, password);
+                if (register == 2)
+                    return Ok(new { StatusCode = 200, Message = "Registrasi Berhasil" });
+                else if (register == 1)
+                    return Ok(new { StatusCode = 200, Message = "Data Telah Digunakan" });
+                else if (register == 0)
+                    return Ok(new { StatusCode = 200, Message = "Gagal Registrasi" });
+                else
+                    return Ok(new { StatusCode = 200, Message = "Masih Gagal Registrasi" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { StatusCode = 400, Message = e.Message });
+            }
+        }
+
+        [HttpPost("ChangePassword")]
+        public IActionResult ChangePassword(string email, string password, string confirm)
+        {
+            try
+            {
+                var change = accountRepository.ChangePassword(email, password, confirm);
+                if (change == 1)
+                    return Ok(new { StatusCode = 200, Message = "Pergantian Password Berhasil" });
+                if (change == 0)
+                    return Ok(new { StatusCode = 200, Message = "Pergantian Password Gagal" });
+                return Ok(new { StatusCode = 200, Message = "Pergantian Password Tetap Gagal" });
+            }   
+            catch (Exception e)
+            {
+                return BadRequest(new { StatusCode = 400, Message = e.Message });
+            }
+        }
+
+        [HttpPost("ForgotPassword")]
+        public IActionResult ForgotPassword(string email, string confirm)
+        {
+            try
+            {
+                var change = accountRepository.ForgotPassword(email, confirm);
+                if (change == 1)
+                    return Ok(new { StatusCode = 200, Message = "Pergantian Password Berhasil" });
+                if (change == 0)
+                    return Ok(new { StatusCode = 200, Message = "Pergantian Password Gagal" });
+                return Ok(new { StatusCode = 200, Message = "Pergantian Password Tetap Gagal" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { StatusCode = 400, Message = e.Message });
+            }
+        }
+
     }
 }
