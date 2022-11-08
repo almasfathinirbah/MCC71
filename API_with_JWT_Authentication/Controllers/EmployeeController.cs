@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace JWTAuthentication.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/employee")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {

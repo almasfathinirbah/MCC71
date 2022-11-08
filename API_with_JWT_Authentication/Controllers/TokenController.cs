@@ -9,7 +9,7 @@ using System.Text;
 
 namespace JWTAuthentication.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/token")]
     [ApiController]
     public class TokenController : ControllerBase
     {
