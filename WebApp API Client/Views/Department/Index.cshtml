@@ -1,0 +1,149 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Index";
+}
+
+<div class="card">
+    <div class="container">
+    <h1>Department</h1>
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createDepartmentModal">Create New</button>
+    <table class="display table" id="tableDepartment">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Id</th>
+                <th>Department Name</th>
+                <th>Division Id</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody class="table-striped">
+        </tbody>
+    </table>
+    </div>
+</div>
+
+<div class="modal fade" id="createDepartmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Create New Department</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body container">
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputDepartement">Nama Departement</label>
+                            <input type="text" class="form-control" id="InputDepartementName" placeholder="Enter departement" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Division</label>
+                            <input class="form-control" id="InputDivisionIdDepartement" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary swalDefaultSuccess swalDefaultError" onclick="createDepartement()">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="detailsDepartmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Department</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="modalDetail" class="modal-body container">
+                <!-- Isi modal -->
+                <!-- /Isi modal -->
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editDepartmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="modalEdit" class="modal-body">
+                <!-- Isi modal -->
+                <h1>Edit</h1>
+                <h4>Departement</h4>
+                <hr />
+
+                <form>
+                    <div class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label for="departNameInput" class="control-label">Name</label>
+                        <input id="departNameInput" name="departementName" class="form-control" />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="divisionSelect" class="control-label">Division ID</label>
+                        <select id="divisionSelect" name="divisionId" class="form-control"></select>
+
+
+                    </div>
+                    <div class="form-group mt-2">
+                    </div>
+                </form>
+
+                <!-- /Isi modal -->
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeModal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteDepartmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="modalDelete" class="modal-body container">
+                <!-- Isi modal -->
+                <!-- /Isi modal -->
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section ScriptsAjaxRequest{
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js" defer></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js" defer></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js" defer></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js" defer></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.3/js/dataTables.buttons.min.js" defer></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.colVis.min.js" defer></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.html5.min.js" defer></script>
+    <script src="~/js/Department.js"></script>
+}
+
