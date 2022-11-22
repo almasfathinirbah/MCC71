@@ -71,9 +71,9 @@ function newDepartments() {
         },
         success: function (data) {
             Swal.fire(
-                'DATA DITAMBAHKAN',
-                '+_+_+_+_' + data,
-                'success'
+                'Done!',
+                'Update Data Successfull' + data,
+                'Success'
             );
             location.reload();
         }
@@ -123,9 +123,9 @@ function updateDepartments() {
         },
         success: function (data) {
             Swal.fire(
-                'Data Diupdate',
-                'sedang proses!!',
-                'success'
+                'Done!',
+                'Update Data Successfull',
+                'Success'
             )
             location.reload();
         }

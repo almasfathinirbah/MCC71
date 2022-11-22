@@ -63,9 +63,9 @@ function newDivisions() {
         },
         success: function (data) {
             Swal.fire(
-                'DATA DITAMBAHKAN',
-                '+_+_+_+_' + data,
-                'success'
+                'Done!',
+                'Create Data Successfull' + data,
+                'Success'
             );
             location.reload();
         }
@@ -112,9 +112,9 @@ function updateDivisions() {
         },
         success: function (data) {
             Swal.fire(
-                'Data Diupdate',
-                'sedang proses!!',
-                'success'
+                'Done!',
+                'Update Data Successfull',
+                'Success'
             )
             location.reload();
         }
@@ -165,7 +165,7 @@ function showDelete(Id) {
             Swal.fire(
                 'Done!',
                 'Delete Data Successfull' + data,
-                'success'
+                'Success'
             );
             location.reload();
         }
