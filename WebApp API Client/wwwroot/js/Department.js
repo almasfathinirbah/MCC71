@@ -35,7 +35,7 @@ $(document).ready(function () {
                 data: "Id",
                 render: (data) => {
                     return `
-                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDepartmentModal" onclick="showEdit(${data})">Edit</a> |
+                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDepartmentModal" onclick="editDepartment(${data})">Edit</a> |
                     <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#detailsDepartmentModal" onclick="showDetail(${data})"> Detail</a> |
                     <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteDepartmentModal" onclick="showDelete(${data})">Delete</a>
                 `;
@@ -43,34 +43,93 @@ $(document).ready(function () {
             }
         ],
         dom: 'Bfrtip',
-        buttons: ['colvis', 'pdf', 'excel']
+        buttons: ['colvis', 'copy', 'pdf', 'excel']
     })
-});
+})
 
-function createDepartement() {
+function newDepartments() {
+    let data;
+    let Id = 0;
+    let Name = $('#DepartmentName').val();
+    let DivisionId = parseInt($('#DivisionId').val());
 
-    const DepartementName = $("#InputDepartementName").val();
-    const DivisionIdDepartement = $("#InputDivisionIdDepartment").val();
+    data = {
+        "Id": Id,
+        "Name": Name,
+        "DivisionId": DivisionId
+    }
+
+    console.log(data);
 
     $.ajax({
         url: 'https://localhost:7183/api/Departments',
-        method: 'POST',
+        type: "POST",
+        data: JSON.stringify(data),
         dataType: 'json',
-        data: {
-            Name: DepartementName,
-            DivisionId: parseInt(DivisionIdDepartement)
+        headers: {
+            'Content-Type': 'application/json'
         },
         success: function (data) {
             Swal.fire(
-                'Done!',
-                'Create New Data Successfull' + data,
+                'DATA DITAMBAHKAN',
+                '+_+_+_+_' + data,
+                'success'
+            );
+            location.reload();
+        }
+    });
+}
+
+function editDepartment(Id) {
+    $.ajax({
+        url: `https://localhost:7183/api/Departments/GetById?Id=${Id}`,
+        type: "GET"
+    }).done((res) => {
+        let temp = "";
+        
+        $('#edit').html(`
+        <input type = "hidden" class= "form-control" id = "hidenId" readonly placeholder = "" value = "0">
+        <p> Id: <input type="text" class="form-control" id="Id" readonly placeholder="${res.data.Id}" value="${res.data.Id}">
+        <p> Name: <input type="text" class="form-control" id="DeptName" placeholder="${res.data.Name}" value="${res.data.Name}">
+        <p> DivisionId: <input type="text" class="form-control" id="DivisID" placeholder="${res.data.DivisionId}" value="${res.data.DivisionId}">
+        `)
+        console.log(res);
+    }).fail((err) => {
+        console.log(err);
+    });
+}
+
+function updateDepartments() {
+    let data;
+    let Id = parseInt($('#Id').val());
+    let Name = $('#DeptName').val();
+    let DivisionId = parseInt($('#DivisID').val());
+
+    data = {
+        "Id": Id,
+        "Name": Name,
+        "DivisionId": DivisionId
+    }
+
+    console.log(data);
+
+    $.ajax({
+        url: 'https://localhost:7183/api/Departments',
+        type: "PUT",
+        data: JSON.stringify(data),
+        dataType: 'json',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        success: function (data) {
+            Swal.fire(
+                'Data Diupdate',
+                'sedang proses!!',
                 'success'
             )
-        },
-        error: function (data) {
-            getAlertError();
+            location.reload();
         }
-    })
+    });
 }
 
 function showDetail(departementId) {

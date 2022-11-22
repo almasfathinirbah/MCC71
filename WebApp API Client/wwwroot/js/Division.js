@@ -29,40 +29,96 @@ $(document).ready(function () {
                 data: "Id",
                 render: (data) => {
                     return `
-                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDivisionModal" onclick="showEdit(${data})">Edit</a> |
-                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsDivisionModal" onclick="showDetail(${data})"> Details</a> |
-                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteDivisionModal" onclick="showDelete(${data})">Delete</a>
+                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDivisionModal" onclick="editDivision(${data})">Edit</a> |
+                    <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#detailsDivisionModal" onclick="showDetail(${data})"> Details</a> |
+                    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteDivisionModal" onclick="showDelete(${data})">Delete</a>
                 `;
                 }
             }
         ],
         dom: 'Bfrtip',
-        buttons: ['colvis', 'pdf', 'excel']
+        buttons: ['colvis', 'copy', 'pdf', 'excel']
     })
 });
 
-function createDivision() {
+function newDivisions() {
+    let data;
+    let Id = 0;
+    let Name = $('#DivisionName').val();
 
-    const DivisionName = $("#InputDivisionName").val();
+    data = {
+        "Id": Id,
+        "Name": Name
+    }
+
+    console.log(data);
 
     $.ajax({
         url: 'https://localhost:7183/api/Divisions',
-        method: 'POST',
+        type: "POST",
+        data: JSON.stringify(data),
         dataType: 'json',
-        data: {
-            Name: DivisionName
+        headers: {
+            'Content-Type': 'application/json'
         },
         success: function (data) {
             Swal.fire(
-                'Done!',
-                'Create New Data Successfull' + data,
+                'DATA DITAMBAHKAN',
+                '+_+_+_+_' + data,
+                'success'
+            );
+            location.reload();
+        }
+    });
+}
+
+function editDivision(Id) {
+    $.ajax({
+        url: `https://localhost:7183/api/Divisions/GetById?Id=${Id}`,
+        type: "GET"
+    }).done((res) => {
+        let temp = "";
+
+        $('#edit').html(`
+        <input type = "hidden" class= "form-control" id = "hidenId" readonly placeholder = "" value = "0">
+        <p> Id: <input type="text" class="form-control" id="Id" readonly placeholder="${res.data.Id}" value="${res.data.Id}">
+        <p> Name: <input type="text" class="form-control" id="DivName" placeholder="${res.data.Name}" value="${res.data.Name}">
+        `)
+        console.log(res);
+    }).fail((err) => {
+        console.log(err);
+    });
+}
+
+function updateDivisions() {
+    let data;
+    let Id = parseInt($('#Id').val());
+    let Name = $('#DivName').val();
+
+    data = {
+        "Id": Id,
+        "Name": Name
+    }
+
+    console.log(data);
+
+    $.ajax({
+        url: 'https://localhost:7183/api/Divisions',
+        type: "PUT",
+        data: JSON.stringify(data),
+        dataType: 'json',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        success: function (data) {
+            Swal.fire(
+                'Data Diupdate',
+                'sedang proses!!',
                 'success'
             )
-        },
-        error: function (data) {
-            getAlertError();
+            location.reload();
         }
-    })
+    });
 }
 
 function showDetail(divisionId) {
