@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\Almas\\source\\repos\\WebApp\\WebApp\\wwwroot\\js\\DepChart.js",
+      "PackagePath": "staticwebassets\\js\\DepChart.js"
+    },
+    {
       "Id": "C:\\Users\\Almas\\source\\repos\\WebApp\\WebApp\\wwwroot\\js\\Department.js",
       "PackagePath": "staticwebassets\\js\\Department.js"
     },

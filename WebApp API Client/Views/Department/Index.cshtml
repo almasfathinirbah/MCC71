@@ -3,9 +3,27 @@
     ViewData["Title"] = "Index";
 }
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
 <div class="card">
     <div class="container">
     <h1>Department</h1>
+
+    <div class="container text-center">
+        <h3>Test Chart</h3>
+        <div class="row">
+            <div class="col">
+                <div id="chart">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+            <div class="col">
+                <div id="chart">
+                    <canvas id="myChart2"></canvas>
+                </div>
+            </div>
+        </div>       
+    </div>
 
     <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">Create New</button>
     <table class="display table" id="tableDepartment">
@@ -108,6 +126,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.3/js/dataTables.buttons.min.js" defer></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.colVis.min.js" defer></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.html5.min.js" defer></script>
-    <script src="~/js/Department.js"></script>
+    <script src="~/js/DepChart.js" defer></script>
+    <script src="~/js/Department.js" defer></script>
 }
 
